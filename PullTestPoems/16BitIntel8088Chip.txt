@@ -7,7 +7,7 @@ nor can a Commodore 64
 drive read a file
 you have created on an
 IBM Personal Computer.
-both Koypro and Osborne computers use
+both Kaypro and Osborne computers use
 the CP/M operating system
 but can't read each other's
 handwriting
