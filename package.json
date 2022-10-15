@@ -4,7 +4,8 @@
   "description": "A template for projects that utilize the [Gitflow Workflow](https://www.atlassian.com/git/tutorials/comparing-workflows/gitflow-workflow) (or something similar to it).",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "server": "nodemon server/server.js"
   },
   "repository": {
     "type": "git",
@@ -22,6 +23,8 @@
   },
   "dependencies": {
     "dotenv": "^16.0.3",
-    "express": "^4.18.2"
-  }
+    "express": "^4.18.2",
+    "nodemon": "^2.0.20"
+  },
+  "type": "module"
 }
