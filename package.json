@@ -1,0 +1,30 @@
+{
+  "name": "be-sound",
+  "version": "1.0.0",
+  "description": "A template for projects that utilize the [Gitflow Workflow](https://www.atlassian.com/git/tutorials/comparing-workflows/gitflow-workflow) (or something similar to it).",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "server": "nodemon server/server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/hto-projects/be-sound.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/hto-projects/be-sound/issues"
+  },
+  "homepage": "https://github.com/hto-projects/be-sound#readme",
+  "devDependencies": {
+    "eslint": "^8.25.0"
+  },
+  "dependencies": {
+    "dotenv": "^16.0.3",
+    "express": "^4.18.2",
+    "nodemon": "^2.0.20"
+  },
+  "type": "module"
+}
