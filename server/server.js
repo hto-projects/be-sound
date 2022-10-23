@@ -17,7 +17,6 @@ app.use(express.urlencoded({ extended: false }));
 app.use('/', authRoutes);
 
 app.get('/', (req, res) => {
-    console.log('Request recieved');
     res.sendFile(path.join(__dirname, '..', 'client', 'landing.html'));
 });
 
