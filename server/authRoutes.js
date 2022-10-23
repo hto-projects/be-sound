@@ -1,26 +1,28 @@
 import express from 'express';
 import dotenv from 'dotenv';
+import queryString from 'query-string';
 dotenv.config();
 
 const router = express.Router();
+const redirect_uri = 'http://localhost:26103/regData';
 
 router.get('/login', (req, res) => {
-    const client_id = process.env.SPOTIFY_ID;
     // redirect to login to spotify
     res.redirect('https://accounts.spotify.com/authorize?' +
-        JSON.stringify({
+        queryString.stringify({
             response_type: 'code',
-            client_id: client_id,
+            client_id: process.env.SPOTIFY_ID,
             scope: 'user-read-playback-state',
-            redirect_uri: 'http://localhost:26103/regData'
+            redirect_uri: redirect_uri
         }));
 });
 
 router.get('/regData', (req, res) => {
-    // handle client data, after signed into spotify
+    // handle code after signed into spotify
     // should (after checks) register user to db and add to timer
     // for now don't register to db
-    console.log(req);
+    // remember to refresh token
+    console.log(req.query.code);
 });
 
 export default router;
