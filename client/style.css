@@ -1,0 +1,17 @@
+back:hover{
+    color:green;
+  }
+  span h1{
+    color: aquamarine;
+  }
+  h4{
+    color: snow;
+  }
+  .box{
+   
+  background:#43d043;
+   
+  }
+  .box:hover{
+    background:#34a234;
+  }
