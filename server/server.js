@@ -2,7 +2,7 @@ import express from 'express';
 import dotenv from 'dotenv';
 import authRoutes from './authRoutes.js';
 import { fileURLToPath } from 'url';
-import * as path from 'path'
+import * as path from 'path';
 
 // es6 modules need to do this to use __dirname
 const __filename = fileURLToPath(import.meta.url);
