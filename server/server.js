@@ -17,8 +17,6 @@ app.post('/regData', (req, res) => {
     // should (after checks) register user to db and add to timer
     // needs to be sent on front end, so until then we'll just access test user data to test spotify api
 
-
-
 });
 
 function sendNotifs() {
