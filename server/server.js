@@ -1,29 +1,27 @@
 import express from 'express';
 import dotenv from 'dotenv';
 import authRoutes from './authRoutes.js';
-import { fileURLToPath } from 'url';
-import * as path from 'path';
 
-// es6 modules need to do this to use __dirname
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = path.dirname(__filename);
 dotenv.config();
 
 const PORT = 26103;
 const app = express();
 
+// IMPORTANT: Read Notes in authRoutes.js.
+
+app.set('view engine', 'ejs');
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use('/', authRoutes);
 
 app.get('/', (req, res) => {
-    res.sendFile(path.join(__dirname, '..', 'client', 'landing.html'));
+    const retrievedData = req.query;
+    res.render('landing', retrievedData);
 });
 
 function sendNotifs() {
     // should be called on an interval, sending notifs to registered db users
-    // could also use separate intervals per user but this is simpler
-    console.log('interval time');
+    console.log('Notif');
 }
 
 setInterval(sendNotifs, 10000);

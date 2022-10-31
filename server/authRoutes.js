@@ -6,18 +6,31 @@ dotenv.config();
 
 const router = express.Router();
 const redirect_uri = 'http://localhost:26103/regData';
+
 let encoded;
 let accToken;
 let refToken;
 // definitely not good to have these globals, refactor later
 
-// IMPORTANT: needs refactored. should store access accToken and refToken
-// then the server should call a function refreshing them every so often
-// this way the notif function will actually have a key to use.
+/* NOTES:
+    Needs refactored. I will after the demo, here's a list.
+    - regData() should basically only store accToken/refToken
+      to database, error checking/scope check needs added.
+    - refreshToken() should only update the keys in the database.
+    
+server.js:
+    - Needs minimum two interval functions: one for refreshing tokens,
+    and one for sending notifications. Probably move refreshToken() to server.js.
+    - Maybe re-render interval as well? If we plan to keep the info
+    on the site.
+    - Need to link Push API to server, do that after demo probably. Will
+    need to retrieve PushSubscription to DB after giving permission,
+    then send Push Request to browser Push Service.
+*/
+
 
 router.get('/login', (req, res) => {
     // redirect to login to spotify
-    // add random scope var for security
     res.redirect('https://accounts.spotify.com/authorize?' +
         queryString.stringify({
             response_type: 'code',
@@ -30,9 +43,8 @@ router.get('/login', (req, res) => {
 
 router.get('/regData', async (req, res) => {
     // handle code after signed into spotify
-    // should (after error checks) register user to db and add to timer
+    // should (after error checks) register user to db
     // for now don't register to db
-    // add random scope check
 
     // this is not the best code, i won't lie
     encoded = new Buffer(process.env.SPOTIFY_ID + ':' + process.env.SPOTIFY_SECRET).toString('base64');
@@ -51,11 +63,9 @@ router.get('/regData', async (req, res) => {
     const reqJSON = await request.json();
     accToken = reqJSON.access_token;
     refToken = reqJSON.refresh_token;
-    // see above IMPORTANT COMMENT
+    // for now, just do this entirely in this function
     setInterval(refreshToken, 3600);
 
-    // for now, just do this entirely in this function
-    // refactor after demo
     const userReq = await fetch('https://api.spotify.com/v1/me/player', {
         method: 'GET',
         headers: {
@@ -63,12 +73,19 @@ router.get('/regData', async (req, res) => {
             'Content-Type': 'application/json'
         }
     });
-    // IMPORTANT: Catch error if response 204
-    // api reference has format for response
-    const userData = await userReq.json();
-    const currentData = { albumName: userData.item.album.name, albumAuthor: userData.item.artists[0].name };
-    const query = queryString.stringify(currentData);
-    res.redirect('/?' + query);
+
+    try {
+        const userData = await userReq.json();
+        const currentData = { albumName: userData.item.album.name, albumAuthor: userData.item.artists[0].name };
+        var query = queryString.stringify(currentData);
+    }
+    catch {
+        console.log('Not listening to anything');
+        query = null;
+    }
+    finally {
+        res.redirect('/?' + query);
+    }
 });
 
 async function refreshToken() {
