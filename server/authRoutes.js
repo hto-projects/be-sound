@@ -11,6 +11,10 @@ let accToken;
 let refToken;
 // definitely not good to have these globals, refactor later
 
+// IMPORTANT: needs refactored. should store access accToken and refToken
+// then the server should call a function refreshing them every so often
+// this way the notif function will actually have a key to use.
+
 router.get('/login', (req, res) => {
     // redirect to login to spotify
     // add random scope var for security
@@ -29,7 +33,6 @@ router.get('/regData', async (req, res) => {
     // should (after error checks) register user to db and add to timer
     // for now don't register to db
     // add random scope check
-    // remember to refresh token
 
     // this is not the best code, i won't lie
     encoded = new Buffer(process.env.SPOTIFY_ID + ':' + process.env.SPOTIFY_SECRET).toString('base64');
@@ -48,8 +51,9 @@ router.get('/regData', async (req, res) => {
     const reqJSON = await request.json();
     accToken = reqJSON.access_token;
     refToken = reqJSON.refresh_token;
-    // probably a better way to do this
+    // see above IMPORTANT COMMENT
     setInterval(refreshToken, 3600);
+    res.redirect('/');
 });
 
 async function refreshToken() {
@@ -67,6 +71,7 @@ async function refreshToken() {
     const reqJSON = await request.json();
     accToken = reqJSON.access_token;
     refToken = reqJSON.refresh_token;
+    // the least pure function i've ever written 😔
 }
 
 export default router;
