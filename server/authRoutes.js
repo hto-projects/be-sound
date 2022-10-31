@@ -53,7 +53,22 @@ router.get('/regData', async (req, res) => {
     refToken = reqJSON.refresh_token;
     // see above IMPORTANT COMMENT
     setInterval(refreshToken, 3600);
-    res.redirect('/');
+
+    // for now, just do this entirely in this function
+    // refactor after demo
+    const userReq = await fetch('https://api.spotify.com/v1/me/player', {
+        method: 'GET',
+        headers: {
+            'Authorization': `Bearer ${accToken}`,
+            'Content-Type': 'application/json'
+        }
+    });
+    // IMPORTANT: Catch error if response 204
+    // api reference has format for response
+    const userData = await userReq.json();
+    const currentData = { albumName: userData.item.album.name, albumAuthor: userData.item.artists[0].name };
+    const query = queryString.stringify(currentData);
+    res.redirect('/?' + query);
 });
 
 async function refreshToken() {
