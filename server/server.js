@@ -1,10 +1,12 @@
 import express from 'express';
 import dotenv from 'dotenv';
 import authRoutes from './authRoutes.js';
-import { MongoClient } from 'mongodb';
+import notifRoutes from './notifRoutes.js';
 import { fileURLToPath } from 'url';
 import path from 'path';
+import testFunc from './util/database.js';
 
+testFunc();
 // must do this for es6 modules if you want __dirname
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -13,7 +15,6 @@ dotenv.config();
 
 const PORT = 26103;
 const app = express();
-const mongo = new MongoClient(process.env.MONGO_URI);
 
 // IMPORTANT: Read Notes in authRoutes.js.
 
@@ -21,6 +22,7 @@ app.set('view engine', 'ejs');
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use('/', authRoutes);
+app.use('/', notifRoutes);
 
 // future, split into css and js folders
 app.use(express.static(path.join((__dirname, '..', 'public'))));
