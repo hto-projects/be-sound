@@ -4,8 +4,8 @@ import authRoutes from './authRoutes.js';
 import notifRoutes from './notifRoutes.js';
 import { fileURLToPath } from 'url';
 import path from 'path';
+import { refreshInterval, notificationInterval } from './util/intervals.js';
 
-testFunc();
 // must do this for es6 modules if you want __dirname
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -31,11 +31,7 @@ app.get('/', (req, res) => {
     res.render('landing', retrievedData);
 });
 
-function sendNotifs() {
-    // should be called on an interval, sending notifs to registered db users
-    console.log('Notif');
-}
-
-setInterval(sendNotifs, 10000);
-
 app.listen(PORT, () => console.log(`Listening on port ${PORT}`));
+
+setInterval(refreshInterval, 2700000);// 45 minutes
+setInterval(notificationInterval, 100000); // 100 seconds
