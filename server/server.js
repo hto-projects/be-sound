@@ -4,7 +4,6 @@ import authRoutes from './authRoutes.js';
 import notifRoutes from './notifRoutes.js';
 import { fileURLToPath } from 'url';
 import path from 'path';
-import testFunc from './util/database.js';
 
 testFunc();
 // must do this for es6 modules if you want __dirname
