@@ -62,10 +62,11 @@ router.get('/regData', async (req, res) => {
     res.redirect('/?' + query);
     setInterval(refreshToken, 3600);
 
+async function fetchDataAsQuery(access_token) {
     const userReq = await fetch('https://api.spotify.com/v1/me/player', {
         method: 'GET',
         headers: {
-            'Authorization': `Bearer ${accToken}`,
+            'Authorization': `Bearer ${access_token}`,
             'Content-Type': 'application/json'
         }
     });
