@@ -97,8 +97,6 @@ async function refreshToken() {
         }
     });
     const reqJSON = await request.json();
-    accToken = reqJSON.access_token;
-    refToken = reqJSON.refresh_token;
 }
 
 export default router;
