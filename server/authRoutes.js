@@ -49,6 +49,20 @@ router.get('/regData', async (req, res) => {
         }
     });
     const reqJSON = await request.json();
+    database.db_createUser({
+        isPlaying: false,
+        spotifyData: {
+            accToken: reqJSON.access_token,
+            refToken: reqJSON.refresh_token
+        },
+        notifObj: {
+            // notifications aren't set up yet, so this is a placeholder
+            endpoint: false
+        }
+    });
+
+    const query = await fetchDataAsQuery(reqJSON.access_token);
+    res.redirect('/?' + query);
     accToken = reqJSON.access_token;
     refToken = reqJSON.refresh_token;
     setInterval(refreshToken, 3600);
