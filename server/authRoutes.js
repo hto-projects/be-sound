@@ -7,6 +7,7 @@ dotenv.config();
 const router = express.Router();
 const redirect_uri = 'http://localhost:26103/regData';
 
+const encoded = Buffer.from(process.env.SPOTIFY_ID + ':' + process.env.SPOTIFY_SECRET).toString('base64');
 let encoded;
 let accToken;
 let refToken;
