@@ -3,7 +3,6 @@ import dotenv from 'dotenv';
 dotenv.config();
 
 const mongo = new MongoClient(process.env.MONGO_URI);
-const db = mongo.db('BeSound');
 const userCollection = db.collection('users');
 
 export default async () => {
