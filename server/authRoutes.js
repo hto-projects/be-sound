@@ -35,7 +35,6 @@ router.get('/login', (req, res) => {
 });
 
 router.get('/regData', async (req, res) => {
-    encoded = new Buffer(process.env.SPOTIFY_ID + ':' + process.env.SPOTIFY_SECRET).toString('base64');
     const request = await fetch('https://accounts.spotify.com/api/token', {
         method: 'POST',
         body: queryString.stringify({
