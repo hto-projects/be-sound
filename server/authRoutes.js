@@ -2,6 +2,7 @@ import express from 'express';
 import dotenv from 'dotenv';
 import queryString from 'query-string';
 import fetch from 'node-fetch';
+import * as database from './util/database.js';
 dotenv.config();
 
 const router = express.Router();
@@ -11,7 +12,6 @@ const encoded = Buffer.from(process.env.SPOTIFY_ID + ':' + process.env.SPOTIFY_S
 
 /* NOTES:
     Needs refactored. I will after the demo, here's a list.
-    
 server.js:
     - Maybe re-render interval as well? If we plan to keep the info
     on the site.
@@ -45,6 +45,7 @@ router.get('/regData', async (req, res) => {
             'Content-Type': 'application/x-www-form-urlencoded'
         }
     });
+
     const reqJSON = await request.json();
     database.db_createUser({
         isPlaying: false,
@@ -60,7 +61,7 @@ router.get('/regData', async (req, res) => {
 
     const query = await fetchDataAsQuery(reqJSON.access_token);
     res.redirect('/?' + query);
-    setInterval(refreshToken, 3600);
+});
 
 async function fetchDataAsQuery(access_token) {
     const userReq = await fetch('https://api.spotify.com/v1/me/player', {
@@ -70,34 +71,15 @@ async function fetchDataAsQuery(access_token) {
             'Content-Type': 'application/json'
         }
     });
-
     try {
         const userData = await userReq.json();
         const currentData = { albumName: userData.item.album.name, albumAuthor: userData.item.artists[0].name };
         var query = queryString.stringify(currentData);
     }
     catch {
-        console.log('Not listening to anything');
         query = null;
     }
-    finally {
-        res.redirect('/?' + query);
-    }
-});
-
-async function refreshToken() {
-    const request = await fetch('https://accounts.spotify.com/api/token', {
-        method: 'POST',
-        body: queryString.stringify({
-            grant_type: 'refresh_token',
-            refresh_token: refToken
-        }),
-        headers: {
-            'Authorization': 'Basic ' + encoded,
-            'Content-Type': 'application/x-www-form-urlencoded'
-        }
-    });
-    const reqJSON = await request.json();
+    return query;
 }
 
 export default router;
