@@ -8,9 +8,6 @@ const router = express.Router();
 const redirect_uri = 'http://localhost:26103/regData';
 
 const encoded = Buffer.from(process.env.SPOTIFY_ID + ':' + process.env.SPOTIFY_SECRET).toString('base64');
-let encoded;
-let accToken;
-let refToken;
 
 /* NOTES:
     Needs refactored. I will after the demo, here's a list.
@@ -63,8 +60,6 @@ router.get('/regData', async (req, res) => {
 
     const query = await fetchDataAsQuery(reqJSON.access_token);
     res.redirect('/?' + query);
-    accToken = reqJSON.access_token;
-    refToken = reqJSON.refresh_token;
     setInterval(refreshToken, 3600);
 
     const userReq = await fetch('https://api.spotify.com/v1/me/player', {
