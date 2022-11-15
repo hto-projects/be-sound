@@ -5,11 +5,15 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Landing</title>
     <link rel="stylesheet" href="landing.css">
+    <script type="text/javascript" src="client.js" defer></script>
 </head>
 <body>
     <h1>landing</h1>
     <h2><%= locals.albumName ? `Album: ${albumName}` : 'Not currently playing.'%></h2>
     <h2><%= locals.albumAuthor ? `Creator: ${albumAuthor}` : null %> </h2>
     <div id="testing"></div>
+    <button type="button" id="subscribe">subscribe</button>
+    <button type="button" id="unsubscribe">unsubscribe</button>
+    <button type="button" id="notify-me">notify me</button> 
 </body>
 </html>

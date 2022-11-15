@@ -1,7 +1,7 @@
 // Push notification logic.
-
+alert("js file loaded");
 const VAPID_PUBLIC_KEY = 'VAPID_PUBLIC_KEY_VALUE_HERE';
-const subscribeButton = document.getElementById('subscribe');
+const subscribeButton = document.querySelector('#subscribe');
 const unsubscribeButton = document.getElementById('unsubscribe');
 const notifyMeButton = document.getElementById('notify-me');
 
@@ -34,8 +34,8 @@ function urlB64ToUint8Array(base64String) {
 
 // Logic for the "Notify me" and "Notify all" buttons.
 
-document.getElementById('notify-me').addEventListener('click', async () => {
-  const registration = await navigator.serviceWorker.getRegistration();
+document.getElementById('notify-me').addEventListener('click', async () => { 
+ const registration = await navigator.serviceWorker.getRegistration();
   const subscription = await registration.pushManager.getSubscription();
   fetch('/notify-me', {
     method: 'POST',
@@ -54,4 +54,4 @@ document.getElementById('notify-all').addEventListener('click', async () => {
     document.getElementById('notification-status-message').textContent =
         'There are no subscribed endpoints to send messages to, yet.';
   }
-});
+}); 
