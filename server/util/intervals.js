@@ -5,8 +5,6 @@ import fetch from 'node-fetch';
 const encoded = Buffer.from(process.env.SPOTIFY_ID + ':' + process.env.SPOTIFY_SECRET).toString('base64');
 
 export const refreshInterval = async () => {
-    // this really isn't the best way to do this especially with a higher userbase
-    // but for now, it's fine for our needs
     const all = await database.db_findAll({});
     all.forEach(doc => {
         refreshToken(doc);
@@ -17,6 +15,18 @@ export const notificationInterval = () => {
     console.log('notification example');
     // Make sure to separate sending notifications from actually re-checking player status
     // they should be separate functions
+};
+
+export const statusInterval = async () => {
+    // for each user,
+    // get their access key from database;
+    // request player status from spotify api;
+    // update player status on user document;
+    // ---
+    const all = await database.db_findAll({});
+    all.forEach(doc => {
+        checkStatus(doc);
+    });
 };
 
 async function refreshToken(document) {
@@ -43,4 +53,32 @@ async function refreshToken(document) {
     };
 
     database.db_updateOne(document, properties);
+}
+
+async function checkStatus(document) {
+    const userReq = await fetch('https://api.spotify.com/v1/me/player', {
+        method: 'GET',
+        headers: {
+            'Authorization': `Bearer ${document.spotifyData.accToken}`,
+            'Content-Type': 'application/json'
+        }
+    });
+
+    try {
+        const userData = await userReq.json();
+        var currentData = { albumName: userData.item.album.name, albumAuthor: userData.item.artists[0].name };
+    }
+    catch {
+        currentData = null;
+    }
+    finally {
+        // update status in database
+        const properties = {
+            $set: {
+                isPlaying: currentData ? true : false
+            }
+        };
+
+        database.db_updateOne(document, properties);
+    }
 }
