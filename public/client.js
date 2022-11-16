@@ -1,5 +1,8 @@
 // Push notification logic.
-alert("js file loaded");
+var jQueryScript = document.createElement('script');  
+jQueryScript.setAttribute('src','https://cdnjs.cloudflare.com/ajax/libs/push.js/1.0.12/push.min.js');
+document.head.appendChild(jQueryScript);
+
 const VAPID_PUBLIC_KEY = 'VAPID_PUBLIC_KEY_VALUE_HERE';
 const subscribeButton = document.querySelector('#subscribe');
 const unsubscribeButton = document.getElementById('unsubscribe');
@@ -35,7 +38,8 @@ function urlB64ToUint8Array(base64String) {
 // Logic for the "Notify me" and "Notify all" buttons.
 
 document.getElementById('notify-me').addEventListener('click', async () => { 
- const registration = await navigator.serviceWorker.getRegistration();
+  const registration = await navigator.serviceWorker.getRegistration();
+  alert(registration)
   const subscription = await registration.pushManager.getSubscription();
   fetch('/notify-me', {
     method: 'POST',
