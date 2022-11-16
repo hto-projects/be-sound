@@ -5,10 +5,41 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Landing</title>
     <link rel="stylesheet" href="landing.css">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
 </head>
 <body>
-    <h1>landing</h1>
-    <h2><%= locals.albumName ? `Album: ${albumName}` : 'Not currently playing.'%></h2>
-    <h2><%= locals.albumAuthor ? `Creator: ${albumAuthor}` : null %> </h2>
+    <div class="jumbotron text-center home">
+        <img src="text.png" class="small"/>
+        <img src="image.png" class="small"/>
+          
+        </div>
+    <!-- <div class="container"> just incase its needed later-->
+        <div class="row">
+        
+            <div class="col-xs-4" id="list" class="space">
+            <img src="album.png"/>
+
+            <h2>Album Name1</h2>
+            <p> Song1 - Author1123</p>
+            
+            </div>
+            <div class="col-xs-4" id="list" class="space">
+                <img src="album.png"/>
+    
+                <h2>Album Name2</h2>
+                <p> Song2 - Author2</p>
+                
+                </div>
+            <div class="col-xs-4" id="list" class="space">
+                    <img src="album.png"/>
+        
+                    <h2>Album Name3</h2>
+                    <p> Song3 - Author3</p>
+                    
+            </div>
+
+        </div>
+
+    <!-- </div> -->
 </body>
 </html>
