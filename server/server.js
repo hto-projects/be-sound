@@ -4,7 +4,7 @@ import authRoutes from './authRoutes.js';
 import notifRoutes from './notifRoutes.js';
 import { fileURLToPath } from 'url';
 import path from 'path';
-import { refreshInterval, notificationInterval } from './util/intervals.js';
+import * as intervals from './util/intervals.js';
 
 // must do this for es6 modules if you want __dirname
 const __filename = fileURLToPath(import.meta.url);
@@ -33,5 +33,6 @@ app.get('/', (req, res) => {
 
 app.listen(PORT, () => console.log(`Listening on port ${PORT}`));
 
-setInterval(refreshInterval, 2700000);// 45 minutes
-setInterval(notificationInterval, 100000); // 100 seconds
+setInterval(intervals.refreshInterval, 2700000);// 45 minutes
+setInterval(intervals.notificationInterval, 100000); // 100 seconds
+setInterval(intervals.statusInterval, 60000); // 1 minute
