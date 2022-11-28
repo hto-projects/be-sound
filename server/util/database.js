@@ -34,7 +34,7 @@ export const db_createUser = async (properties) => {
         const inserted = await userCollection.insertOne(properties);
         return inserted;
     } catch (error) {
-        throw (new Error('Failed to create User!'));
+        throw (new Error(`Unable to create User! ${error}`));
     }
 };
 
