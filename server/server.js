@@ -2,6 +2,7 @@ import express from 'express';
 import dotenv from 'dotenv';
 import authRoutes from './authRoutes.js';
 import notifRoutes from './notifRoutes.js';
+import registerRoute from './auth/register.js';
 import { fileURLToPath } from 'url';
 import path from 'path';
 import * as intervals from './util/intervals.js';
@@ -22,6 +23,7 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use('/', authRoutes);
 app.use('/', notifRoutes);
+app.use('/', registerRoute);
 
 // future, split into css and js folders
 app.use(express.static(path.join((__dirname, '..', 'public'))));
