@@ -16,6 +16,12 @@ export default {
                     "p256dh": "BGyyVt9FFV…",
                     "auth": "R9sidzkcdf…"
                 }
+            },
+            "authData": {
+                "username": "TestUser",
+                "hashed_password": "3i245jeg...",
+                "email": 'testuser@notgmail.com',
+                "friends": null,
             }
         }
     ]
