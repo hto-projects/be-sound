@@ -1,5 +1,5 @@
 <div align="center">
-  <img width="325" height="300" src=".github/besound_logo.png">
+  <img width="375" height="325" src=".github/besound_logo.png">
   <br>
   <img src="https://img.shields.io/badge/javascript-%23323330.svg?style=for-the-badge&logo=javascript&logoColor=%23F7DF1E" alt="JavaScript badge">
   <img src="https://img.shields.io/badge/MongoDB-%234ea94b.svg?style=for-the-badge&logo=mongodb&logoColor=white" alt="MongoDB badge">
