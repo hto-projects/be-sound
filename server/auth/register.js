@@ -10,6 +10,8 @@ router.post('/registerUser', (req, res) => {
     * Save info object to DB.
     * Redirect user to homepage.
     */
+    const body = req.body;
+    console.log(body.username);
 });
 
 export default router;
