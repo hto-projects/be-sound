@@ -30,7 +30,7 @@ export const statusInterval = async () => {
     const all = await database.db_findAll({});
     all.forEach(doc => {
         const rawData = checkStatus(doc);
-        const currentData = { albumName: rawData.item.album.name, albumAuthor: rawData.item.artists[0].name };
+        const currentData = rawData.item ? { albumName: rawData.item.album.name, albumAuthor: rawData.item.artists[0].name } : false;
 
         const properties = {
             $set: {
