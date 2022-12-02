@@ -27,6 +27,7 @@ router.post("/registerUser", (req, res) => {
   res.sendStatus(418);
 });
 
+// Hosting
 router.get("/registerUser", (req, res) => {
   res.sendFile("register.html", { root: "./public" });
 });
