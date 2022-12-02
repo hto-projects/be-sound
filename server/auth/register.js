@@ -27,10 +27,13 @@ router.post("/registerUser", (req, res) => {
   res.sendStatus(418);
 });
 
+router.get("/registerUser", (req, res) => {
+  res.sendFile("register.html", { root: "./public" });
+});
+
 async function hashPassword(input) {
   const hash = await bcrypt.hash(input, saltRounds);
   return hash;
 }
 
 export default router;
-
