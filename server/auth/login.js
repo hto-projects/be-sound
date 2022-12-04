@@ -4,7 +4,10 @@ const router = Router();
 
 // API
 router.post("/login", (req, res) => {
-  const body = res.body;
+  const body = req.body;
+
+  const user = { ...body };
+  console.log(user);
 
   res.sendStatus(418);
 });
