@@ -1,4 +1,6 @@
 import { Router } from "express";
+import { hashPassword } from "../util/hash.js";
+import { verifyFromInput } from "./authCheck.js";
 
 const router = Router();
 
@@ -7,7 +9,11 @@ router.post("/login", (req, res) => {
   const body = req.body;
 
   const user = { ...body };
-  console.log(user);
+  hashPassword(user.password).then((hashed_password) => {
+    user.password = hashed_password;
+
+    const found = verifyFromInput(user).then((aef) => console.log(aef));
+  });
 
   res.sendStatus(418);
 });

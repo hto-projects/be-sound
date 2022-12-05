@@ -1,9 +1,8 @@
 import { Router } from "express";
 import { db_createUser } from "../util/database.js";
-import bcrypt from "bcrypt";
+import { hashPassword } from "../util/hash.js";
 
 const router = Router();
-const saltRounds = 10;
 
 // API
 router.post("/registerUser", (req, res) => {
@@ -31,10 +30,5 @@ router.post("/registerUser", (req, res) => {
 router.get("/registerUser", (req, res) => {
   res.sendFile("register.html", { root: "./public" });
 });
-
-async function hashPassword(input) {
-  const hash = await bcrypt.hash(input, saltRounds);
-  return hash;
-}
 
 export default router;
