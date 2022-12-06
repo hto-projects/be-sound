@@ -1,20 +1,21 @@
 import { Router } from "express";
 import { hashPassword } from "../util/hash.js";
-import { verifyFromInput } from "./authCheck.js";
+import { verifyFromInput, verifyFromSession } from "./authCheck.js";
 
 const router = Router();
 
 // API
-router.post("/login", (req, res) => {
+router.post("/login", async (req, res) => {
   const body = req.body;
 
+  //  refactor
   const user = { ...body };
-  hashPassword(user.password).then((hashed_password) => {
-    user.password = hashed_password;
 
-    const found = verifyFromInput(user).then((aef) => console.log(aef));
-  });
+  const found = await verifyFromInput(user);
+  if (!found) return res.sendStatus(401);
 
+  // if user is found
+  req.session.user = found;
   res.sendStatus(418);
 });
 

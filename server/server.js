@@ -7,6 +7,8 @@ import loginRoute from "./auth/login.js";
 import { fileURLToPath } from "url";
 import path from "path";
 import * as intervals from "./util/intervals.js";
+import session from "express-session";
+import MongoStore from "connect-mongo";
 
 // must do this for es6 modules if you want __dirname
 const __filename = fileURLToPath(import.meta.url);
@@ -17,8 +19,20 @@ dotenv.config();
 const PORT = 26103;
 const app = express();
 
-// IMPORTANT: Read Notes in authRoutes.js.
+// Set up sessions and MongoDB
+app.use(
+  session({
+    secret: process.env.MONGO_SECRET,
+    resave: false,
+    saveUninitialized: true,
+    store: MongoStore.create({
+      mongoUrl: process.env.MONGO_URI,
+      dbName: "besound",
+    }),
+  })
+);
 
+// Set up routing and templating
 app.set("view engine", "ejs");
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
@@ -40,4 +54,3 @@ app.listen(PORT, () => console.log(`Listening on port ${PORT}`));
 setInterval(intervals.refreshInterval, 2700000); // 45 minutes
 setInterval(intervals.notificationInterval, 100000); // 100 seconds
 setInterval(intervals.statusInterval, 60000); // 1 minute
-
