@@ -7,6 +7,8 @@ const VAPID_PUBLIC_KEY = 'VAPID_PUBLIC_KEY_VALUE_HERE';
 const subscribeButton = document.querySelector('#subscribe');
 const unsubscribeButton = document.getElementById('unsubscribe');
 const notifyMeButton = document.getElementById('notify-me');
+navigator.serviceWorker.register('service-worker.js');
+console.log(navigator.serviceWorker.register('service-worker.js'));
 
 async function subscribeButtonHandler() {
   // TODO
@@ -39,7 +41,7 @@ function urlB64ToUint8Array(base64String) {
 
 document.getElementById('notify-me').addEventListener('click', async () => { 
   const registration = await navigator.serviceWorker.getRegistration();
-  alert(registration)
+  alert(registration);
   const subscription = await registration.pushManager.getSubscription();
   fetch('/notify-me', {
     method: 'POST',
@@ -50,12 +52,12 @@ document.getElementById('notify-me').addEventListener('click', async () => {
   });
 });
 
-document.getElementById('notify-all').addEventListener('click', async () => {
-  const response = await fetch('/notify-all', {
-    method: 'POST'
-  });
-  if (response.status === 409) {
-    document.getElementById('notification-status-message').textContent =
-        'There are no subscribed endpoints to send messages to, yet.';
-  }
-}); 
+//document.getElementById('notify-all').addEventListener('click', async () => {
+//  const response = await fetch('/notify-all', {
+//    method: 'POST'
+//  });
+//  if (response.status === 409) {
+//    document.getElementById('notification-status-message').textContent =
+//        'There are no subscribed endpoints to send messages to, yet.';
+//  }
+//}); 
