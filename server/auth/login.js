@@ -1,5 +1,4 @@
 import { Router } from "express";
-import { hashPassword } from "../util/hash.js";
 import { verifyFromInput, verifyFromSession } from "./authCheck.js";
 
 const router = Router();
@@ -8,7 +7,6 @@ const router = Router();
 router.post("/login", async (req, res) => {
   const body = req.body;
 
-  //  refactor
   const user = { ...body };
 
   const found = await verifyFromInput(user);
@@ -16,11 +14,11 @@ router.post("/login", async (req, res) => {
 
   // if user is found
   req.session.user = found;
-  res.sendStatus(418);
+  res.redirect("/app/home");
 });
 
 // Hosting
-router.get("/login", (req, res) => {
+router.get("/app/login", (req, res) => {
   res.sendFile("login.html", { root: "./public" });
 });
 

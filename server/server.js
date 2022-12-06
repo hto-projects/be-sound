@@ -1,7 +1,8 @@
 import express from "express";
 import dotenv from "dotenv";
-import authRoutes from "./authRoutes.js";
-import notifRoutes from "./notifRoutes.js";
+import authRoutes from "./routes/authRoutes.js";
+import notifRoutes from "./routes/notifRoutes.js";
+import homeRoute from "./routes/homeRoutes.js";
 import registerRoute from "./auth/register.js";
 import loginRoute from "./auth/login.js";
 import { fileURLToPath } from "url";
@@ -19,6 +20,16 @@ dotenv.config();
 const PORT = 26103;
 const app = express();
 
+// Set up routing and templating
+app.set("view engine", "ejs");
+app.use(express.json());
+app.use(express.urlencoded({ extended: false }));
+app.use("/", authRoutes);
+app.use("/", notifRoutes);
+app.use("/app", homeRoute);
+app.use("/", registerRoute);
+app.use("/", loginRoute);
+
 // Set up sessions and MongoDB
 app.use(
   session({
@@ -27,19 +38,9 @@ app.use(
     saveUninitialized: true,
     store: MongoStore.create({
       mongoUrl: process.env.MONGO_URI,
-      dbName: "besound",
     }),
   })
 );
-
-// Set up routing and templating
-app.set("view engine", "ejs");
-app.use(express.json());
-app.use(express.urlencoded({ extended: false }));
-app.use("/", authRoutes);
-app.use("/", notifRoutes);
-app.use("/", registerRoute);
-app.use("/", loginRoute);
 
 // future, split into css and js folders
 app.use(express.static(path.join((__dirname, "..", "public"))));
