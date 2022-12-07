@@ -6,13 +6,14 @@ const VAPID_PUBLIC_KEY =
 const subscribeBtn = document.getElementById("subscribe");
 
 subscribeBtn.addEventListener("click", (ev) => {
-  console.log(Notification.permission);
   Notification.requestPermission((result) => {
-    console.log("2 " + result);
+    console.log("Permission: " + result);
   });
-  const notif = new Notification("TestNotif", { body: "hi!!!" });
+  const notif = new Notification("BeSound", {
+    body: "Now registered for notifications.",
+  });
   const worker = navigator.serviceWorker
-    .register("./service-worker2.js")
+    .register("../service-worker.js")
     .then((registration) => {
       const subscribeOptions = {
         userVisibleOnly: true,
@@ -28,7 +29,7 @@ subscribeBtn.addEventListener("click", (ev) => {
           "Content-Type": "application/json",
         },
         body: JSON.stringify(pushSubscriptionObj),
-      }).then(() => console.log("Request Sent"));
+      });
     })
     .catch((err) => {
       console.warn(err);

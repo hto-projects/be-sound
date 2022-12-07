@@ -36,6 +36,7 @@ router.get("/login", (req, res) => {
 });
 
 router.get("/regData", async (req, res) => {
+  // Getting permission from Spotify
   const request = await fetch("https://accounts.spotify.com/api/token", {
     method: "POST",
     body: queryString.stringify({
@@ -50,20 +51,28 @@ router.get("/regData", async (req, res) => {
   });
 
   const reqJSON = await request.json();
-  database.db_createUser({
-    isPlaying: false,
-    spotifyData: {
-      accToken: reqJSON.access_token,
-      refToken: reqJSON.refresh_token,
-    },
-    notifObj: {
-      // notifications aren't set up yet, so this is a placeholder
-      endpoint: false,
-    },
+
+  // Updating User in DB
+  const user = req.session.user;
+  const userDoc = await database.db_findOne({
+    "authData.username": user.authData.username,
   });
 
-  const query = await fetchDataAsQuery(reqJSON.access_token);
-  res.redirect("/?" + query);
+  const newProperties = {
+    $set: {
+      isPlaying: fetchDataAsQuery(reqJSON.access_token) ? true : false,
+      spotifyData: {
+        accToken: reqJSON.access_token,
+        refToken: reqJSON.refresh_token,
+      },
+    },
+  };
+
+  const updated = await database.db_updateOne(userDoc, newProperties);
+  console.log("Updated " + updated.modifiedCount);
+
+  // End of Spotify Registration
+  res.redirect("/app/home");
 });
 
 async function fetchDataAsQuery(access_token) {

@@ -1,21 +1,31 @@
 import express from "express";
-import dotenv from "dotenv";
+import * as database from "../util/database.js";
 
-dotenv.config();
 const router = express.Router();
 
-router.post("/notifications", (req, res) => {
-  console.log("Request from Evan and Matt :D");
-  /*
-   * Needs to link to user DB document,
-   * for now maybe have them send a temp user object and just
-   * link to that in the DB.
-   */
-  res.send(418);
-});
+router.post("/api/newSubscription", async (req, res) => {
+  const PushSubscription = req.body;
+  const user = req.session.user;
 
-router.post("/api/newSubscription", (req, res) => {
-  console.log(req.body);
+  const userDoc = await database.db_findOne({
+    "authData.username": user.authData.username,
+  });
+
+  const newProperties = {
+    $set: {
+      notifObj: PushSubscription,
+    },
+  };
+  const result = await database.db_updateOne(userDoc, newProperties);
+  console.log("Updated: " + result.modifiedCount + " PushSubscription(s)");
+
+  const updatedUser = await database.db_findOne({
+    "authData.username": user.authData.username,
+  });
+
+  req.session.user = updatedUser;
+  req.session.save();
+
   res.sendStatus(200);
 });
 
