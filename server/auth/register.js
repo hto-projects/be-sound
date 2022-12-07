@@ -5,7 +5,7 @@ import { hashPassword } from "../util/hash.js";
 const router = Router();
 
 // API
-router.post("/registerUser", (req, res) => {
+router.post("/app/registerUser", (req, res) => {
   const body = req.body;
 
   hashPassword(body.password).then((hashed_password) => {
@@ -27,7 +27,7 @@ router.post("/registerUser", (req, res) => {
 });
 
 // Hosting
-router.get("/registerUser", (req, res) => {
+router.get("/app/registerUser", (req, res) => {
   res.sendFile("register.html", { root: "./public" });
 });
 

@@ -4,7 +4,7 @@ import { verifyFromInput, verifyFromSession } from "./authCheck.js";
 const router = Router();
 
 // API
-router.post("/login", async (req, res) => {
+router.post("/app/login", async (req, res) => {
   const body = req.body;
 
   const user = { ...body };
@@ -14,6 +14,7 @@ router.post("/login", async (req, res) => {
 
   // if user is found
   req.session.user = found;
+  req.session.save();
   res.redirect("/app/home");
 });
 

@@ -20,16 +20,6 @@ dotenv.config();
 const PORT = 26103;
 const app = express();
 
-// Set up routing and templating
-app.set("view engine", "ejs");
-app.use(express.json());
-app.use(express.urlencoded({ extended: false }));
-app.use("/", authRoutes);
-app.use("/", notifRoutes);
-app.use("/app", homeRoute);
-app.use("/", registerRoute);
-app.use("/", loginRoute);
-
 // Set up sessions and MongoDB
 app.use(
   session({
@@ -41,6 +31,16 @@ app.use(
     }),
   })
 );
+
+// Set up routing and templating
+app.set("view engine", "ejs");
+app.use(express.json());
+app.use(express.urlencoded({ extended: false }));
+app.use("/", authRoutes);
+app.use("/", notifRoutes);
+app.use("/app", homeRoute);
+app.use("/", registerRoute);
+app.use("/", loginRoute);
 
 // future, split into css and js folders
 app.use(express.static(path.join((__dirname, "..", "public"))));
