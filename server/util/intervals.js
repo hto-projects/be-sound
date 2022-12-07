@@ -7,25 +7,38 @@ const encoded = Buffer.from(process.env.SPOTIFY_ID + ':' + process.env.SPOTIFY_S
 export const refreshInterval = async () => {
     const all = await database.db_findAll({});
     all.forEach(doc => {
-        refreshToken(doc);
+        const statusData = refreshToken(doc);
+
+        const properties = {
+            $set: {
+                spotifyData: {
+                    accToken: statusData.access_token,
+                    refToken: doc.spotifyData.refToken
+                }
+            }
+        };
+
+        database.db_updateOne(doc, properties);
     });
 };
 
 export const notificationInterval = () => {
     console.log('notification example');
-    // Make sure to separate sending notifications from actually re-checking player status
-    // they should be separate functions
 };
 
 export const statusInterval = async () => {
-    // for each user,
-    // get their access key from database;
-    // request player status from spotify api;
-    // update player status on user document;
-    // ---
     const all = await database.db_findAll({});
     all.forEach(doc => {
-        checkStatus(doc);
+        const rawData = checkStatus(doc);
+        const currentData = rawData.item ? { albumName: rawData.item.album.name, albumAuthor: rawData.item.artists[0].name } : false;
+
+        const properties = {
+            $set: {
+                isPlaying: currentData ? true : false
+            }
+        };
+
+        database.db_updateOne(doc, properties);
     });
 };
 
@@ -43,16 +56,8 @@ async function refreshToken(document) {
     });
     const reqJSON = await request.json();
 
-    const properties = {
-        $set: {
-            spotifyData: {
-                accToken: reqJSON.access_token,
-                refToken: document.spotifyData.refToken
-            }
-        }
-    };
+    return reqJSON;
 
-    database.db_updateOne(document, properties);
 }
 
 async function checkStatus(document) {
@@ -66,19 +71,9 @@ async function checkStatus(document) {
 
     try {
         const userData = await userReq.json();
-        var currentData = { albumName: userData.item.album.name, albumAuthor: userData.item.artists[0].name };
+        return userData;
     }
     catch {
-        currentData = null;
-    }
-    finally {
-        // update status in database
-        const properties = {
-            $set: {
-                isPlaying: currentData ? true : false
-            }
-        };
-
-        database.db_updateOne(document, properties);
+        return null;
     }
 }
