@@ -48,20 +48,25 @@ export const statusInterval = async () => {
   const all = await database.db_findAll({});
   all.forEach(async (doc) => {
     const rawData = await checkStatus(doc);
-    const currentData = rawData.item
-      ? {
-          albumName: rawData.item.album.name,
-          albumAuthor: rawData.item.artists[0].name,
-        }
-      : false;
+    let currentData;
+    try {
+      currentData = rawData.item
+        ? {
+            albumName: rawData.item.album.name,
+            albumAuthor: rawData.item.artists[0].name,
+          }
+        : false;
+    } catch {
+      currentData = false;
+    } finally {
+      const properties = {
+        $set: {
+          isPlaying: currentData ? true : false,
+        },
+      };
 
-    const properties = {
-      $set: {
-        isPlaying: currentData ? true : false,
-      },
-    };
-
-    database.db_updateOne(doc, properties);
+      database.db_updateOne(doc, properties);
+    }
   });
 };
 

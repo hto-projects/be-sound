@@ -29,5 +29,11 @@ router.post("/api/newSubscription", async (req, res) => {
   res.sendStatus(200);
 });
 
-export default router;
+router.post("/api/newPost", async (req, res) => {
+  const user = req.session.user;
 
+  console.log(user);
+  res.sendStatus(200);
+});
+
+export default router;

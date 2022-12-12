@@ -11,4 +11,15 @@ export const verifyFromInput = async (inputUser) => {
   return found && isSamePassword ? found : false;
 };
 
-export const verifyFromSession = (inputSession) => {};
+export const loginCheck = async (req, res, next) => {
+  if (req.path == "/login" || req.path == "/register") {
+    return next();
+  }
+
+  const found = await db_findOne({
+    "authData.hashed_password": req.session.user.authData.hashed_password,
+  });
+
+  if (found) return next();
+  else return res.redirect("/app/login");
+};

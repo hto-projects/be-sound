@@ -1,5 +1,3 @@
-console.log("hello world");
-
 const VAPID_PUBLIC_KEY =
   "BLee58G5uGzsPUYzAez62gDRR84T-Z6Gu4ZnorAZwLLQaVyGeKS93N_YxpKxmJSzF_rlMx46ybA67U45fOW6NzE";
 
@@ -34,4 +32,15 @@ subscribeBtn.addEventListener("click", (ev) => {
     .catch((err) => {
       console.warn(err);
     });
+});
+
+const addBtn = document.getElementById("addbereal");
+
+addBtn.addEventListener("click", (ev) => {
+  fetch("/api/newPost", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+  }).then(() => console.log("sent"));
 });

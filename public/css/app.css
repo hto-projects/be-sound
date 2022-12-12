@@ -1,4 +1,53 @@
+* {
+  font-family: sans-serif;
+  padding: 0px;
+  margin: 0px;
+}
+
+body {
+  height: 100vh;
+  width: 100vw;
+}
+
 #header {
   display: flex;
   justify-content: space-between;
+  padding: 15px;
+  text-align: center;
+  align-items: center;
+  background-color: #d64b4f;
+}
+
+.brand {
+  color: #f98c6e;
+}
+
+.card {
+  height: 350px;
+  width: 275px;
+  background-color: rgba(250, 148, 15, 0.2);
+  border: 0px solid;
+  border-radius: 10px;
+  box-shadow: 9px 5px 18px 3px rgba(189, 189, 189, 0.77);
+}
+
+#content {
+  width: 100%;
+  display: flex;
+  padding: 25px;
+  gap: 25px;
+}
+
+#friendmodal {
+  height: 300px;
+  width: 400px;
+  background-color: grey;
+  position: absolute;
+  margin-left: auto;
+  margin-right: auto;
+  text-align: center;
+  left: 0;
+  right: 0;
+  top: 25%;
+  display: none;
 }

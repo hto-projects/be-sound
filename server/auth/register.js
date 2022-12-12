@@ -19,6 +19,7 @@ router.post("/app/register", (req, res) => {
         email: body.email,
         friends: null,
       },
+      latestPost: null,
     };
 
     db_createUser(userObject);
