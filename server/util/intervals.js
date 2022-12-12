@@ -93,7 +93,7 @@ async function refreshToken(document) {
   return reqJSON;
 }
 
-async function checkStatus(document) {
+export async function checkStatus(document) {
   const userReq = await fetch("https://api.spotify.com/v1/me/player", {
     method: "GET",
     headers: {

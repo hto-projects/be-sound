@@ -35,8 +35,23 @@ subscribeBtn.addEventListener("click", (ev) => {
 });
 
 const addBtn = document.getElementById("addbereal");
+const content = document.getElementById("content");
 
 addBtn.addEventListener("click", (ev) => {
+  fetch("/api/newPost")
+    .then((response) => response.json())
+    .then((body) => {
+      const date = new Date();
+      const newCard = document.createElement("div");
+      newCard.classList.add("card");
+      newCard.innerHTML = `
+    <h1 class='cardFriend'>You</h1>
+    <h1 class='cardSong'>${body.albumName}</h1>
+    <h1 class='cardTime'>${date.getDate()}-${date.getMonth()}-${date.getFullYear()}</h1>`;
+      content.appendChild(newCard);
+    });
+
+  // ERROR IF NOT LISTENING TO MUSIC
   fetch("/api/newPost", {
     method: "POST",
     headers: {
