@@ -35,7 +35,10 @@ export const refreshInterval = async () => {
 
 export const notificationInterval = async () => {
   console.log("notification example");
-  const all = await database.db_findAll({ isPlaying: true });
+  const all = await database.db_findAll({
+    isPlaying: true,
+    "notifObj.endpoint": { $exists: true },
+  });
   all.forEach((doc) => {
     sendNotification(doc);
   });
@@ -101,4 +104,3 @@ async function checkStatus(document) {
     return null;
   }
 }
-
