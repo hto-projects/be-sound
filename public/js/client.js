@@ -37,25 +37,46 @@ subscribeBtn.addEventListener("click", (ev) => {
 const addBtn = document.getElementById("addbereal");
 const content = document.getElementById("content");
 
+function createCard(username, albumName) {
+  const date = new Date();
+  const newCard = document.createElement("div");
+  newCard.classList.add("card");
+  newCard.innerHTML = `
+    <h1 class='cardFriend'>${username}</h1>
+    <h1 class='cardSong'>${albumName}</h1>
+    <h1 class='cardTime'>${date.getDate()}-${date.getMonth()}-${date.getFullYear()}</h1>`;
+  return newCard;
+}
+
+// at first, get all posts to display
+async function getPosts() {
+  const posts = await (await fetch("/api/getPosts")).json();
+  posts.forEach((post) => {
+    const card = createCard(post.username, post.albumName);
+    content.appendChild(card);
+  });
+}
+
+getPosts();
+
 addBtn.addEventListener("click", (ev) => {
+  // ERROR IF NOT LISTENING TO MUSIC
   fetch("/api/newPost")
     .then((response) => response.json())
     .then((body) => {
-      const date = new Date();
-      const newCard = document.createElement("div");
-      newCard.classList.add("card");
-      newCard.innerHTML = `
-    <h1 class='cardFriend'>You</h1>
-    <h1 class='cardSong'>${body.albumName}</h1>
-    <h1 class='cardTime'>${date.getDate()}-${date.getMonth()}-${date.getFullYear()}</h1>`;
+      const newCard = createCard(body.username, body.albumName);
       content.appendChild(newCard);
     });
 
-  // ERROR IF NOT LISTENING TO MUSIC
+  const date = new Date();
+
   fetch("/api/newPost", {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
     },
-  }).then(() => console.log("sent"));
+    body: JSON.stringify({
+      time: `${date.getDate()}-${date.getMonth()}-${date.getFullYear()}`,
+    }),
+  });
 });

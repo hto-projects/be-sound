@@ -23,12 +23,24 @@ body {
 }
 
 .card {
-  height: 350px;
-  width: 275px;
+  padding: 25px;
+  height: 425px;
+  width: 400px;
   background-color: rgba(250, 148, 15, 0.2);
   border: 0px solid;
   border-radius: 10px;
   box-shadow: 9px 5px 18px 3px rgba(189, 189, 189, 0.77);
+  color: #f98c6e;
+  display: flex;
+  flex-direction: column;
+  gap: 25px;
+}
+
+.cardFriend,
+.cardSong,
+.cardTime {
+  width: 100%;
+  text-align: center;
 }
 
 #content {

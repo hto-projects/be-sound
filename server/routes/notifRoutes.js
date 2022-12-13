@@ -37,6 +37,7 @@ router.get("/api/newPost", async (req, res) => {
   });
   const rawData = await checkStatus(userDoc);
   const currentData = {
+    username: user.authData.username,
     albumName: rawData.item.album.name,
     albumAuthor: rawData.item.artists[0].name,
   };
@@ -45,8 +46,54 @@ router.get("/api/newPost", async (req, res) => {
 
 router.post("/api/newPost", async (req, res) => {
   const user = req.session.user;
+  const userDoc = await database.db_findOne({
+    "authData.username": user.authData.username,
+  });
+
+  const rawData = await checkStatus(userDoc);
+
+  const newProperties = {
+    $set: {
+      latestPost: {
+        username: user.authData.username,
+        time: req.body.time,
+        albumName: rawData.item.album.name,
+      },
+    },
+  };
+  await database.db_updateOne(userDoc, newProperties);
 
   res.sendStatus(200);
+});
+
+router.get("/api/getPosts", async (req, res) => {
+  const user = req.session.user;
+  const userDoc = await database.db_findOne({
+    "authData.username": user.authData.username,
+  });
+  const friends = userDoc.authData.friends;
+  let posts = [];
+
+  if (friends == null || !friends) {
+    posts.push(userDoc.latestPost);
+    res.send(posts);
+  }
+
+  posts.push(userDoc.latestPost);
+  for (let i = 0; i < friends.length; i++) {
+    let friend = friends[i];
+    // find the document of a friend
+    // look at friend post
+    // add post object to array
+    // add user post to array
+    // return array
+    // REMEMBER TO SAVE SESSION
+    const doc = await database.db_findOne({ "authData.username": friend });
+    const friendPost = doc.latestPost;
+    posts.push(friendPost);
+  }
+
+  res.send(posts);
 });
 
 export default router;

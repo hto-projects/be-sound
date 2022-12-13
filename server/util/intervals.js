@@ -72,7 +72,6 @@ export const statusInterval = async () => {
 
 async function sendNotification(document) {
   const PushSubscription = document.notifObj;
-  console.log(PushSubscription);
   webpush.sendNotification(PushSubscription);
 }
 
