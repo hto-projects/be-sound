@@ -76,7 +76,7 @@ router.get("/api/getPosts", async (req, res) => {
 
   if (friends == null || !friends) {
     posts.push(userDoc.latestPost);
-    res.send(posts);
+    return res.send(posts);
   }
 
   posts.push(userDoc.latestPost);

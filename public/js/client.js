@@ -44,7 +44,9 @@ function createCard(username, albumName) {
   newCard.innerHTML = `
     <h1 class='cardFriend'>${username}</h1>
     <h1 class='cardSong'>${albumName}</h1>
-    <h1 class='cardTime'>${date.getDate()}-${date.getMonth()}-${date.getFullYear()}</h1>`;
+    <h1 class='cardTime'>${date.getDate()}-${
+    date.getMonth() + 1
+  }-${date.getFullYear()}</h1>`;
   return newCard;
 }
 
@@ -76,7 +78,7 @@ addBtn.addEventListener("click", (ev) => {
       "Content-Type": "application/json",
     },
     body: JSON.stringify({
-      time: `${date.getDate()}-${date.getMonth()}-${date.getFullYear()}`,
+      time: `${date.getDate()}-${date.getMonth() + 1}-${date.getFullYear()}`,
     }),
   });
 });

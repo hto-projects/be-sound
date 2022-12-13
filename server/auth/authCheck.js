@@ -16,10 +16,13 @@ export const loginCheck = async (req, res, next) => {
     return next();
   }
 
-  const found = await db_findOne({
-    "authData.hashed_password": req.session.user.authData.hashed_password,
-  });
-
-  if (found) return next();
-  else return res.redirect("/app/login");
+  try {
+    const found = await db_findOne({
+      "authData.hashed_password": req.session.user.authData.hashed_password,
+    });
+    if (found) return next();
+    else return res.redirect("/app/login");
+  } catch {
+    return res.redirect("/app/login");
+  }
 };
