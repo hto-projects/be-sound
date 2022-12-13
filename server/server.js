@@ -55,5 +55,5 @@ app.get("/", (req, res) => {
 app.listen(PORT, () => console.log(`Listening on port ${PORT}`));
 
 setInterval(intervals.refreshInterval, 2700000); // 45 minutes
-setInterval(intervals.notificationInterval, 5000); // 100 seconds = 100000
+setInterval(intervals.notificationInterval, 100000); // 100 seconds = 100000
 setInterval(intervals.statusInterval, 4000); // 1 minute
