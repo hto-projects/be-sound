@@ -82,11 +82,6 @@ router.get("/api/getPosts", async (req, res) => {
   posts.push(userDoc.latestPost);
   for (let i = 0; i < friends.length; i++) {
     let friend = friends[i];
-    // find the document of a friend
-    // look at friend post
-    // add post object to array
-    // add user post to array
-    // return array
     // REMEMBER TO SAVE SESSION
     const doc = await database.db_findOne({ "authData.username": friend });
     const friendPost = doc.latestPost;
