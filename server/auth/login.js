@@ -1,5 +1,5 @@
 import { Router } from "express";
-import { verifyFromInput, verifyFromSession } from "./authCheck.js";
+import { verifyFromInput } from "./authCheck.js";
 
 const router = Router();
 

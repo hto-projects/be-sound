@@ -11,6 +11,9 @@
     "type": "git",
     "url": "git+https://github.com/hto-projects/be-sound.git"
   },
+  "nodemonConfig": {
+    "ext": "js html ejs css"
+  },
   "keywords": [],
   "author": "",
   "license": "ISC",
@@ -31,7 +34,8 @@
     "mongodb": "^4.11.0",
     "node-fetch": "^3.2.10",
     "nodemon": "^2.0.20",
-    "query-string": "^7.1.1"
+    "query-string": "^7.1.1",
+    "web-push": "^3.5.0"
   },
   "type": "module"
 }

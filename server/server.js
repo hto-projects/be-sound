@@ -2,9 +2,10 @@ import express from "express";
 import dotenv from "dotenv";
 import authRoutes from "./routes/authRoutes.js";
 import notifRoutes from "./routes/notifRoutes.js";
-import homeRoute from "./routes/homeRoutes.js";
+import homeRoutes from "./routes/homeRoutes.js";
 import registerRoute from "./auth/register.js";
 import loginRoute from "./auth/login.js";
+import { loginCheck } from "./auth/authCheck.js";
 import { fileURLToPath } from "url";
 import path from "path";
 import * as intervals from "./util/intervals.js";
@@ -38,7 +39,8 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use("/", authRoutes);
 app.use("/", notifRoutes);
-app.use("/app", homeRoute);
+app.use("/app", loginCheck);
+app.use("/app", homeRoutes);
 app.use("/", registerRoute);
 app.use("/", loginRoute);
 
@@ -53,5 +55,5 @@ app.get("/", (req, res) => {
 app.listen(PORT, () => console.log(`Listening on port ${PORT}`));
 
 setInterval(intervals.refreshInterval, 2700000); // 45 minutes
-setInterval(intervals.notificationInterval, 100000); // 100 seconds
-setInterval(intervals.statusInterval, 60000); // 1 minute
+setInterval(intervals.notificationInterval, 10000); // 100 seconds = 100000
+setInterval(intervals.statusInterval, 4000); // 1 minute
